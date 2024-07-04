@@ -1,3 +1,366 @@
-h1 {
-    color: red;
+.wrapper {
+    /* background-color: #d2cec6; */
 }
+
+.time {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+
+}
+.watchDescription{
+    width:8rem;
+    height: auto;
+}
+.top-banner{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+:root {
+    --bg: #ead9f2;
+    --digit: #e6f2d9;
+    --face: #0d1306;
+    --content: #666;
+    --shadow: rgba(0,0,0,0.25);
+    --glare: rgba(255,255,255,0.2);
+    --watch-bg: #197fe6;
+    --watch-bg--light: #d1e5fa;
+    --watch-bg--dark: #0a335c;
+    --stroke: #262626;
+    --start: #b83014;
+    --reset: #0a335c;
+    --start-two: #eb6347;
+    --restart: #b3b3b3;
+    --restart-two: #e6e6e6;
+    --reset-two: #135493;
+    --light-two: #e1ce9f;
+    --light: #ab941a;
+    --format: #18121e;
+    --format-two: #4d3e59;
+}
+
+.watch-item{
+    display: flex;
+    gap: 3rem;
+    padding: 3rem;
+    flex-direction: column;
+}
+.light-on {
+
+    .stopwatch__content {
+        background-color: #f1f18b;
+    }
+}
+#timezones {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    width: 200px; /* Adjust width as needed */
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 50vh;
+    display: grid;
+    font-family: 'Orbitron', sans-serif;
+    background: var(--bg);
+}
+
+.allClocks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(35vmin, 1fr));
+    justify-items: center;
+    gap:1rem;
+}
+
+
+
+   /* CSS */
+.add-watch-button {
+   background-color: var(--restart);
+   border: 2px solid var(--watch-bg--dark);
+   border-radius: 30px;
+   box-shadow: var(--watch-bg--dark) 4px 4px 0 0;
+
+   cursor: pointer;
+   display: inline-block;
+    font-family: 'Orbitron', sans-serif;
+   font-weight: 600;
+   font-size: 18px;
+   padding: 0 18px;
+   line-height: 50px;
+   text-align: center;
+   text-decoration: none;
+   user-select: none;
+   -webkit-user-select: none;
+   touch-action: manipulation;
+}
+
+.add-watch-button:hover {
+    background-color: #fff;
+}
+
+.add-watch-button:active {
+    box-shadow: var(--watch-bg--dark) 2px 2px 0 0;
+    transform: translate(2px, 2px);
+}
+
+
+
+.stopwatch {
+    padding: 2rem;
+    height: 30vmin;
+    width: 30vmin;
+    background-color: var(--watch-bg);
+    border-radius: 50%;
+    border: 0.5vmin solid var(--stroke);
+    position: relative;
+    display: inline-block;
+}
+
+.stopwatch__content {
+    height: 27vmin;
+    border: 0.5vmin solid var(--stroke);
+    width: 27vmin;
+    background-color: var(--content);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+}
+
+.stopwatch__content:before {
+    box-shadow: 0 0 0 4vmin var(--shadow);
+    border-radius: 50%;
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    width: 100%;
+    transform: translate(-50%, -50%) translate(0, 2%);
+}
+
+.stopwatch__content:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    width: 100%;
+    transform: translate(-50%, -50%) rotate(-50deg);
+    background: linear-gradient(transparent 0 15%, var(--glare) 16% 35%, transparent 36% 40%, var(--glare) 41% 45%, transparent 46%);
+}
+
+
+.reset-button {
+    width: 100%;
+    height: 60%;
+    position: absolute;
+    bottom: 0;
+    border: 0.5vmin solid var(--stroke);
+    border-radius: 1vmin;
+    background: var(--reset);
+    overflow: hidden;
+}
+.reset-button:after {
+    content: '';
+    height: 100%;
+    width: 100%;
+    border-radius: 1vmin;
+    background: var(--reset-two);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    transform: translate(20%, 35%);
+}
+.light-button {
+    width: 100%;
+    height: 60%;
+    position: absolute;
+    bottom: 0;
+    border: 0.5vmin solid var(--stroke);
+    border-radius: 1vmin;
+    background: var(--light);
+    overflow: hidden;
+}
+.light-button:after {
+    content: '';
+    height: 100%;
+    width: 100%;
+    border-radius: 1vmin;
+    background: var(--light-two);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    transform: translate(-20%, 35%);
+}
+.format-button {
+    width: 100%;
+    height: 60%;
+    position: absolute;
+    bottom: 0;
+    border: 0.5vmin solid var(--stroke);
+    border-radius: 1vmin;
+    background: var(--format);
+    overflow: hidden;
+}
+.format-button:after {
+    content: '';
+    height: 100%;
+    width: 100%;
+    border-radius: 1vmin;
+    background: var(--format-two);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    transform: translate(-20%, 35%);
+}
+.stopwatch-light-button:active ~ .stopwatch-light {
+    --y: 35;
+}
+.stopwatch-format-button:active ~ .stopwatch-format {
+    --y: 35;
+}
+.stopwatch-increment-button:active ~ .stopwatch-increment {
+    --y: 25;
+}
+.stopwatch-mode-button:active ~ .stopwatch-mode {
+    --y: 15;
+}
+.stopwatch-reset-button:active ~ .stopwatch-reset {
+    --y: 25;
+}
+
+
+button {
+    border: 0;
+    outline: transparent;
+    background: none;
+}
+
+button {
+    cursor: pointer;
+}
+.mode-button {
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    border: 0.5vmin solid var(--stroke);
+    border-radius: 1vmin;
+    background: var(--restart);
+    overflow: hidden;
+}
+.mode-button:after {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: repeating-linear-gradient(90deg, transparent 0 18%, var(--stroke) 18% 22%) 50% 0/100% 30% no-repeat, repeating-linear-gradient(90deg, transparent 0 18%, var(--stroke) 18% 22%) 50% 100%/100% 30% no-repeat;
+    content: '';
+}
+.mode-button:before {
+    content: '';
+    height: 100%;
+    width: 100%;
+    border-radius: 1vmin;
+    background: var(--restart-two);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    transform: translate(-20%, 45%);
+}
+.increment-button {
+    width: 100%;
+    height: 60%;
+    position: absolute;
+    bottom: 0;
+    border: 0.5vmin solid var(--stroke);
+    border-radius: 1vmin;
+    background: var(--start);
+    overflow: hidden;
+}
+.increment-button:after {
+    content: '';
+    height: 100%;
+    width: 100%;
+    border-radius: 1vmin;
+    background: var(--start-two);
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    transform: translate(-20%, 35%);
+}
+
+
+.stopwatch-increment-button,
+.stopwatch-mode-button,
+.stopwatch-reset-button,
+.stopwatch-light-button,
+.stopwatch-format-button,
+.stopwatch__control {
+    --size: 7vmin;
+    height: var(--size);
+    width: var(--size);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transition: transform 0.05s;
+    transform: translate(-50%, -50%) rotate(var(--rotation, 0deg)) translate(0, -17vmin) translateY(calc(var(--y, 0) * 1%));
+    z-index: 10;
+}
+.stopwatch__control {
+    z-index: -1;
+}
+.stopwatch-mode:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 60%;
+    height: 75%;
+    border: 0.5vmin solid var(--stroke);
+    background: linear-gradient(90deg, var(--restart-two) 0 80%, transparent 81%) 50% 50%/100% 100% no-repeat;
+    background-color: var(--restart);
+    z-index: -1;
+}
+
+.stopwatch-increment-button,
+.stopwatch-increment {
+    --rotation: 40deg;
+}
+.stopwatch-reset-button,
+.stopwatch-reset {
+    --rotation: -40deg;
+}
+
+.stopwatch-light-button,
+.stopwatch-light {
+    --rotation: -140deg;
+}
+.stopwatch-format-button,
+.stopwatch-format {
+    --rotation: 180deg;
+}
+

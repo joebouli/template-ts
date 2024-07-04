@@ -1,0 +1,19 @@
+export const timeZones = [
+  "Pacific/Midway",
+  "Pacific/Honolulu",
+  "America/Juneau",
+  "America/Los_Angeles",
+  "America/Phoenix",
+  "America/Denver",
+  "America/Chicago",
+  "America/New_York",
+  "Atlantic/Bermuda",
+  "Europe/London",
+  "Europe/Paris",
+  "Europe/Berlin",
+  "Asia/Kolkata",
+  "Asia/Singapore",
+  "Asia/Tokyo",
+  "Australia/Sydney",
+  "Pacific/Auckland"
+];
