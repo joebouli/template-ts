@@ -2,7 +2,7 @@ export const watchListTemplate = (): string => `
 <div class="wrapper">
     <!-- Wrapper div for the entire watch list -->
     <div class="top-banner">
-        <!-- Top banner containing add-clock-banner and watchDescription -->
+        <!-- Top banner-->
         <div class="add-clock-banner">
             <!-- Banner for adding a new clock -->
             <label for="timezones">Time zones list:</label>

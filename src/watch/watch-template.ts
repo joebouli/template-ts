@@ -3,43 +3,38 @@ export const watchTemplate = (timeZone: string): string => `
     <!-- Container for a single watch item -->
     <div class="timezone">${timeZone}</div>
     <!-- Display the timezone for this watch -->
-
-    <div class="stopwatch">
-        <!-- Stopwatch container -->
-
-        <div class="stopwatch__content">
+    <div class="watch">
+        <!-- Watch container -->
+        <div class="watch__content">
             <!-- Container for stopwatch content -->
             <div class="time"></div>
             <!-- Display the current time for this watch -->
         </div>
-
         <div class="buttons">
-            <!-- Container for stopwatch control buttons -->
-            <button class="stopwatch-mode-button"><span></span></button>
-            <!-- Button to toggle mode -->
-            <button class="stopwatch-increment-button"><span></span></button>
-            <!-- Button to increment time -->
-            <button class="stopwatch-reset-button"><span></span></button>
-            <!-- Button to reset time -->
-
-            <!-- Additional controls -->
-            <div class="stopwatch-mode stopwatch__control">
+            <!-- Container for watch control buttons -->
+            <button class="watch-mode-button"><span></span></button>
+            <!-- Button to toggle mode -->  
+            <div class="watch-mode watch__control">
                 <div class="mode-button"></div>
             </div>
-            <div class="stopwatch-increment stopwatch__control">
+            <button class="watch-increment-button"><span></span></button>
+            <!-- Button to increment time -->
+            <div class="watch-increment watch__control">
                 <div class="increment-button"></div>
             </div>
-            <div class="stopwatch-reset stopwatch__control">
+            <button class="watch-reset-button"><span></span></button>
+            <!-- Button to reset time -->
+            <div class="watch-reset watch__control">
                 <div class="reset-button"></div>
             </div>
-            <button class="stopwatch-light-button"><span></span></button>
+            <button class="watch-light-button"><span></span></button>
             <!-- Button to toggle light -->
-            <div class="stopwatch-light stopwatch__control">
+            <div class="watch-light watch__control">
                 <div class="light-button"></div>
             </div>
-            <button class="stopwatch-format-button"><span></span></button>
+            <button class="watch-format-button"><span></span></button>
             <!-- Button to toggle time format -->
-            <div class="stopwatch-format stopwatch__control">
+            <div class="watch-format watch__control">
                 <div class="format-button"></div>
             </div>
         </div>

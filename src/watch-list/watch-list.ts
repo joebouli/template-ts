@@ -1,7 +1,7 @@
 import Component from "../component";
 import Watch from "../watch/watch";
-import { watchListTemplate } from "./watch-list-template";
-import { timeZones } from "../model/time-zones";
+import {watchListTemplate} from "./watch-list-template";
+import {timeZones} from "../model/time-zones";
 
 export default class WatchList extends Component {
     readonly element: HTMLDivElement;
@@ -35,7 +35,7 @@ export default class WatchList extends Component {
         });
     }
 
-    // Initialize the watch list with default watches
+    // Initialize the watch list with 4 default watches
     init() {
         for (let i = 0; i < 4 && i < timeZones.length; i++) {
             this.addWatch(timeZones[i]);

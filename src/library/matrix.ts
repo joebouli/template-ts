@@ -71,8 +71,6 @@ export default class Matrix {
         return new Vector2D(x, y);
     }
 
-    // Functions to create translation, rotation, and scaling matrices
-
     // Function to create a translation matrix
     static translation(tx: number, ty: number): Matrix {
         return new Matrix([

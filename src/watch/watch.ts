@@ -1,7 +1,7 @@
 import Component from "../component";
-import { watchTemplate } from "./watch-template";
+import {watchTemplate} from "./watch-template";
 
-import { WatchMode } from "../model/watch-mode";
+import {WatchMode} from "../model/watch-mode";
 import WatchModel from "../model/watch-model";
 import Matrix from "../library/Matrix";
 import Vector2D from "../library/vector2D";
@@ -21,7 +21,6 @@ export default class Watch extends Component {
     private arbitraryPoint: Vector2D; // Arbitrary point for rotation
 
 
-
     private watchModel: WatchModel;
 
     constructor(timeZone: string) {
@@ -35,13 +34,14 @@ export default class Watch extends Component {
         const watchListHTML = watchTemplate(timeZone);
         this.element.innerHTML = watchListHTML;
 
-        // Bind HTML elements to properties
+        // Bind HTML elements to properties UI
         this.timeDisplay = this.element.querySelector('.time');
-        this.modeButton = this.element.querySelector('.stopwatch-mode-button');
-        this.increaseButton = this.element.querySelector('.stopwatch-increment-button');
-        this.lightButton = this.element.querySelector('.stopwatch-light-button');
-        this.resetButton = this.element.querySelector('.stopwatch-reset-button');
-        this.formatButton = this.element.querySelector('.stopwatch-format-button');
+        this.modeButton = this.element.querySelector('.watch-mode-button');
+        this.increaseButton = this.element.querySelector('.watch-increment-button');
+        this.lightButton = this.element.querySelector('.watch-light-button');
+        this.resetButton = this.element.querySelector('.watch-reset-button');
+        this.formatButton = this.element.querySelector('.watch-format-button');
+        this.updateTime();
 
         // Event listeners for buttons
         this.modeButton.addEventListener('click', () => this.toggleMode());
@@ -56,17 +56,16 @@ export default class Watch extends Component {
         }, 1000);
 
         this.arbitraryPoint = new Vector2D(
-            Math.random() * this.element.offsetWidth,
-            Math.random() * this.element.offsetHeight
+            Math.random() * window.innerWidth,
+            Math.random() * window.innerHeight
         );
+
         // Listen for 'Enter' key press to start animation
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
-                if(timeZone=="Europe/Paris")
-                this.startAnimation();
+                    this.startAnimation();
             }
         });
-
 
     }
 
@@ -81,7 +80,7 @@ export default class Watch extends Component {
     // Update time display based on current settings
     private updateTime(): void {
         const currentTime = this.getCurrentTime();
-        const options = { timeZone: this.watchModel.timeZone, hour12: !this.watchModel.is24HourFormat };
+        const options = {timeZone: this.watchModel.timeZone, hour12: !this.watchModel.is24HourFormat};
         this.timeDisplay.textContent = currentTime.toLocaleTimeString('en-GB', options);
     }
 
@@ -110,7 +109,7 @@ export default class Watch extends Component {
                 this.watchModel.minutesIncrement++;
                 break;
             default:
-                // No action in other modes
+                // No action
                 break;
         }
         this.updateTime();
@@ -136,23 +135,46 @@ export default class Watch extends Component {
     }
 
     // TO COMPLETE
-    private startAnimation(): void {
-        // Transformation matrices
-        const selfRotationMatrix = Matrix.rotation(this.rotationAngle); // Rotate on itself
-        const scaleMatrix = Matrix.scaling(this.scaleFactor, this.scaleFactor); // Scale up/down
+    startAnimation(): void {
+        const self = this;
 
-        const combinedMatrix = selfRotationMatrix.multiply(scaleMatrix);
+        function animate() {
 
-        // Transform the watch element
-        const transformedPoint = combinedMatrix.transformPoint(this.arbitraryPoint);
-        this.element.style.transform = `translate(${transformedPoint.x - this.arbitraryPoint.x}px, ${transformedPoint.y - this.arbitraryPoint.y}px) rotate(${this.rotationAngle}rad) scale(${this.scaleFactor})`;
+            // Create transformation matrices
+            const translateToArbitraryPoint = Matrix.translation(self.arbitraryPoint.x, self.arbitraryPoint.y);
+            const translateBack = Matrix.translation(-self.arbitraryPoint.x, -self.arbitraryPoint.y);
+            const selfRotationMatrix = Matrix.rotation(self.rotationAngle);
+            const scaleMatrix = Matrix.scaling(self.scaleFactor, self.scaleFactor);
 
-        // Update rotation angle and scale factor for next frame
-        this.rotationAngle += Math.PI / 180; // Increment rotation by 1 degree
-        this.scaleFactor = Math.sin(this.rotationAngle); // Scale factor based on sine function
+            // Combine matrices
+            const combinedMatrix = translateToArbitraryPoint
+                .multiply(selfRotationMatrix)
+                .multiply(scaleMatrix)
+                .multiply(translateBack);
 
-        // Schedule next frame
-        requestAnimationFrame(() => this.startAnimation());
+            // Apply transformation to watch element
+            const transformedPoint = combinedMatrix.transformPoint(new Vector2D(0, 0));
+            const watchElement = document.querySelector('.watch') as HTMLElement;
+            if (watchElement) {
+                watchElement.style.transform = `translate(${transformedPoint.x}px, ${transformedPoint.y}px) rotate(${self.rotationAngle}rad) scale(${self.scaleFactor})`;
+            }
+
+            // Log values for debugging
+            console.log("Arbitrary Point:", self.arbitraryPoint);
+            console.log("Rotation Angle:", self.rotationAngle);
+            console.log("Scale Factor:", self.scaleFactor);
+            console.log("Transformed Point:", transformedPoint);
+
+            // Update rotation angle and scale factor for next frame
+            self.rotationAngle += Math.PI / 360; // Increment rotation by 0.5 degree
+            self.scaleFactor = Math.sin(self.rotationAngle); // Scale factor based on sine function
+
+            // Request next frame
+            requestAnimationFrame(animate);
+        }
+
+        // Start animation loop
+        animate();
     }
 
 }
