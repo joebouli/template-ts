@@ -1,13 +1,10 @@
 import Component from "../component";
 import {watchTemplate} from "./watch-template";
-
-import {WatchMode} from "../model/watch-mode";
-import WatchModel from "../model/watch-model";
-import Matrix from "../library/Matrix";
-import Vector2D from "../library/vector2D";
+import WatchModel, {WatchMode} from "../../model/watch-model";
+import Matrix from "../../library/matrix";
+import Vector from "../../library/vector";
 
 export default class Watch extends Component {
-
     readonly element: HTMLDivElement;
     private readonly timeDisplay: HTMLElement;
     private readonly modeButton: HTMLButtonElement;
@@ -15,11 +12,9 @@ export default class Watch extends Component {
     private readonly lightButton: HTMLButtonElement;
     private readonly resetButton: HTMLButtonElement;
     private readonly formatButton: HTMLButtonElement;
-    public mode: WatchMode = WatchMode.DisplayTime;
     private rotationAngle: number = 0; // Initial rotation angle
     private scaleFactor: number = 1; // Initial scale factor
-    private arbitraryPoint: Vector2D; // Arbitrary point for rotation
-
+    private arbitraryPoint: Vector; // Arbitrary point for rotation
 
     private watchModel: WatchModel;
 
@@ -31,8 +26,7 @@ export default class Watch extends Component {
 
         // Create the main element and set its inner HTML using template
         this.element = document.createElement("div");
-        const watchListHTML = watchTemplate(timeZone);
-        this.element.innerHTML = watchListHTML;
+        this.element.innerHTML = watchTemplate(timeZone);
 
         // Bind HTML elements to properties UI
         this.timeDisplay = this.element.querySelector('.time');
@@ -55,7 +49,7 @@ export default class Watch extends Component {
             this.updateTime();
         }, 1000);
 
-        this.arbitraryPoint = new Vector2D(
+        this.arbitraryPoint = new Vector(
             Math.random() * window.innerWidth,
             Math.random() * window.innerHeight
         );
@@ -63,10 +57,9 @@ export default class Watch extends Component {
         // Listen for 'Enter' key press to start animation
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
-                    this.startAnimation();
+                this.startAnimation();
             }
         });
-
     }
 
     // Get current time adjusted by increments
@@ -80,57 +73,41 @@ export default class Watch extends Component {
     // Update time display based on current settings
     private updateTime(): void {
         const currentTime = this.getCurrentTime();
-        const options = {timeZone: this.watchModel.timeZone, hour12: !this.watchModel.is24HourFormat};
+        const options = { timeZone: this.watchModel.timeZone, hour12: !this.watchModel.is24HourFormat };
         this.timeDisplay.textContent = currentTime.toLocaleTimeString('en-GB', options);
     }
 
     // Toggle between different modes (DisplayTime, EditHours, EditMinutes)
     private toggleMode(): void {
-        switch (this.mode) {
-            case WatchMode.DisplayTime:
-                this.mode = WatchMode.EditHours;
-                break;
-            case WatchMode.EditHours:
-                this.mode = WatchMode.EditMinutes;
-                break;
-            case WatchMode.EditMinutes:
-                this.mode = WatchMode.DisplayTime;
-                break;
-        }
+        this.watchModel.toggleMode();
+        this.updateTime(); // Ensure the display updates if needed
     }
 
     // Handle incrementing hours or minutes based on current mode
     private handleIncrease(): void {
-        switch (this.mode) {
-            case WatchMode.EditHours:
-                this.watchModel.hoursIncrement++;
-                break;
-            case WatchMode.EditMinutes:
-                this.watchModel.minutesIncrement++;
-                break;
-            default:
-                // No action
-                break;
+        if (this.watchModel.mode === WatchMode.EditHours) {
+            this.watchModel.increaseHours();
+        } else if (this.watchModel.mode === WatchMode.EditMinutes) {
+            this.watchModel.increaseMinutes();
         }
         this.updateTime();
     }
 
     // Toggle the light on/off and update the UI
     private toggleLight(): void {
-        this.watchModel.isLightOn = !this.watchModel.isLightOn;
+        this.watchModel.toggleLight();
         this.element.classList.toggle('light-on', this.watchModel.isLightOn);
     }
 
     // Reset the hours and minutes increments to zero and update the time display
     private resetTime(): void {
-        this.watchModel.hoursIncrement = 0;
-        this.watchModel.minutesIncrement = 0;
+        this.watchModel.resetTime();
         this.updateTime();
     }
 
     // Toggle between 24-hour and 12-hour format and update the time display
     private toggleFormat(): void {
-        this.watchModel.is24HourFormat = !this.watchModel.is24HourFormat;
+        this.watchModel.toggleFormat();
         this.updateTime();
     }
 
@@ -139,7 +116,6 @@ export default class Watch extends Component {
         const self = this;
 
         function animate() {
-
             // Create transformation matrices
             const translateToArbitraryPoint = Matrix.translation(self.arbitraryPoint.x, self.arbitraryPoint.y);
             const translateBack = Matrix.translation(-self.arbitraryPoint.x, -self.arbitraryPoint.y);
@@ -153,7 +129,7 @@ export default class Watch extends Component {
                 .multiply(translateBack);
 
             // Apply transformation to watch element
-            const transformedPoint = combinedMatrix.transformPoint(new Vector2D(0, 0));
+            const transformedPoint = combinedMatrix.transformPoint(new Vector(0, 0));
             const watchElement = document.querySelector('.watch') as HTMLElement;
             if (watchElement) {
                 watchElement.style.transform = `translate(${transformedPoint.x}px, ${transformedPoint.y}px) rotate(${self.rotationAngle}rad) scale(${self.scaleFactor})`;
@@ -176,5 +152,4 @@ export default class Watch extends Component {
         // Start animation loop
         animate();
     }
-
 }

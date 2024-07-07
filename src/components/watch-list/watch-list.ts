@@ -1,7 +1,7 @@
 import Component from "../component";
 import Watch from "../watch/watch";
 import {watchListTemplate} from "./watch-list-template";
-import {timeZones} from "../model/time-zones";
+import {timeZones} from "../../model/time-zones";
 
 export default class WatchList extends Component {
     readonly element: HTMLDivElement;

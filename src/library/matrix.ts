@@ -1,4 +1,4 @@
-import Vector2D from './Vector2D';
+import Vector from './vector';
 
 export default class Matrix {
     private readonly data: number[][];
@@ -65,10 +65,10 @@ export default class Matrix {
     }
 
     // Method to transform a point/vector with the matrix
-    transformPoint(point: Vector2D): Vector2D {
+    transformPoint(point: Vector): Vector {
         const x = this.data[0][0] * point.x + this.data[0][1] * point.y + this.data[0][2];
         const y = this.data[1][0] * point.x + this.data[1][1] * point.y + this.data[1][2];
-        return new Vector2D(x, y);
+        return new Vector(x, y);
     }
 
     // Function to create a translation matrix

@@ -1,7 +1,7 @@
 import './index.css';
 import { timeZones } from './model/time-zones';
-import Watch from "./watch/watch";
-import WatchList from "./watch-list/watch-list";
+import Watch from "./components/watch/watch";
+import WatchList from "./components/watch-list/watch-list";
 
 const appElement = document.getElementById('app');
 
