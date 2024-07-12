@@ -4,10 +4,10 @@ export default class Matrix {
     private readonly data: number[][];
 
     constructor(matrix: number[][]) {
-        if (matrix.length !== 3 || matrix[0].length !== 3) {
-            throw new Error("Matrix must be 3x3");
+        if (matrix.length !== 3 || !matrix.every(row => row.length === 3)) {
+            throw new Error("Matrix must be a valid 3x3 matrix");
         }
-        this.data = matrix;
+            this.data = matrix;
     }
 
     // Method to get an element from the matrix
@@ -45,7 +45,6 @@ export default class Matrix {
                 invMatrix[row][col] *= invDet;
             }
         }
-
         return new Matrix(invMatrix);
     }
 

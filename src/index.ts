@@ -1,6 +1,6 @@
 import './index.css';
 import { timeZones } from './model/time-zones';
-import Watch from "./components/watch/watch";
+import WatchController from "./components/watch/watch-controller";
 import WatchList from "./components/watch-list/watch-list";
 
 const appElement = document.getElementById('app');

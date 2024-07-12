@@ -19,8 +19,9 @@ export const watchTemplate = (timeZone: string): string => `
             </div>
             <button class="watch-increment-button"><span></span></button>
             <!-- Button to increment time -->
-            <div class="watch-increment watch__control">
-                <div class="increment-button"></div>
+            <div class="watch-increment watch__control"> <!--watch-increment for moving the button-->
+                <div class="increment-button"></div> <!--for design-->
+       
             </div>
             <button class="watch-reset-button"><span></span></button>
             <!-- Button to reset time -->
